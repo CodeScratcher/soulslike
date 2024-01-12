@@ -43,7 +43,7 @@ func _physics_process(delta):
 	# Get the input direction and handle the movement/deceleration.
 	var direction = Input.get_axis("left", "right")
 	
-	if not in_roll and is_on_floor():
+	if not in_roll:
 		if direction:
 			velocity.x += direction * ACCEL
 		else:
@@ -55,5 +55,5 @@ func _physics_process(delta):
 		
 	move_and_slide()
 	
-	if Input.is_action_pressed("roll") && velocity.x != 0:
+	if Input.is_action_pressed("roll") and velocity.x != 0 and is_on_floor():
 		$AnimationPlayer.play("roll")
