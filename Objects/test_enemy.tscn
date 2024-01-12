@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://5ilcfle766r"]
+[gd_scene load_steps=7 format=3 uid="uid://d3am4wmcyhydx"]
 
 [ext_resource type="Texture2D" uid="uid://duyvdhdn6yd5l" path="res://icon.svg" id="1_brvmh"]
 [ext_resource type="Script" path="res://Scripts/test_enemy.gd" id="1_faffx"]
@@ -11,6 +11,9 @@ height = 72.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3lqeg"]
 size = Vector2(22, 72)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nrqcj"]
+size = Vector2(40, 72)
 
 [node name="TestEnemy" type="CharacterBody2D"]
 collision_layer = 4
@@ -32,3 +35,14 @@ shape = SubResource("CapsuleShape2D_k6hhj")
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="."]
 position = Vector2(20, 34)
 shape = SubResource("RectangleShape2D_3lqeg")
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(30, 34)
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-10, 0)
+shape = SubResource("RectangleShape2D_nrqcj")
+
+[connection signal="area_entered" from="Area2D" to="." method="enemy_bonked"]
