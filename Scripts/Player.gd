@@ -59,6 +59,9 @@ func _physics_process(delta):
 	
 	if Input.is_action_pressed("roll") and velocity.x != 0 and is_on_floor():
 		$AnimationPlayer.play("roll")
+		
+	if Input.is_action_pressed("light"):
+		$AnimationPlayer.play("attack")
 
 
 func hit(area):

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://csv2le8er8kd3"]
+[gd_scene load_steps=9 format=3 uid="uid://lir0xmncqhfo"]
 
 [ext_resource type="Script" path="res://Scripts/Player.gd" id="1_ck7nh"]
 [ext_resource type="Texture2D" uid="uid://duyvdhdn6yd5l" path="res://icon.svg" id="2_oq334"]
@@ -45,13 +45,44 @@ tracks/2/keys = {
 "values": [1, 5]
 }
 
+[sub_resource type="Animation" id="Animation_xbd5x"]
+resource_name = "attack"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Hitbox:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Hitbox/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_kr5nq"]
 _data = {
+"attack": SubResource("Animation_xbd5x"),
 "roll": SubResource("Animation_vm236")
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qdofb"]
 size = Vector2(3, 3)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8xc5h"]
+size = Vector2(56, 40)
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 8
@@ -89,5 +120,21 @@ collision_mask = 2
 position = Vector2(1, -1)
 shape = SubResource("RectangleShape2D_qdofb")
 debug_color = Color(0.721569, 0.0745098, 0.733333, 0.419608)
+
+[node name="Hitbox" type="Area2D" parent="."]
+visible = false
+position = Vector2(62, -28)
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(14, 0)
+shape = SubResource("RectangleShape2D_8xc5h")
+disabled = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Hitbox"]
+position = Vector2(14, -9.53674e-07)
+scale = Vector2(0.4375, 0.3125)
+texture = ExtResource("2_oq334")
 
 [connection signal="area_entered" from="Hurtbox" to="." method="hit"]
