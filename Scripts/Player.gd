@@ -15,6 +15,8 @@ var jump_timer = 0.0
 var started_jump = false
 var finished_jump = false
 
+var hp = 100
+
 func _physics_process(delta):
 	var in_roll = $AnimationPlayer.current_animation == "roll"
 	
