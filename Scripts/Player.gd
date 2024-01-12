@@ -32,7 +32,7 @@ func _physics_process(delta):
 		finished_jump = false
 		
 	# Handle jump.
-	if Input.is_action_pressed("jump") and jump_timer < JUMP_VARIETY and not finished_jump:
+	if Input.is_action_pressed("jump") and jump_timer < JUMP_VARIETY and not finished_jump and not in_roll:
 		velocity.y = JUMP_VELOCITY
 		
 		# Coyote time
@@ -43,7 +43,7 @@ func _physics_process(delta):
 	# Get the input direction and handle the movement/deceleration.
 	var direction = Input.get_axis("left", "right")
 	
-	if not in_roll:
+	if not in_roll and is_on_floor():
 		if direction:
 			velocity.x += direction * ACCEL
 		else:

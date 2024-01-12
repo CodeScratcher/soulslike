@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://djhm6uvkeixqq"]
 
-[ext_resource type="PackedScene" path="res://Objects/Player.tscn" id="1_p5mk7"]
-[ext_resource type="PackedScene" uid="uid://d3am4wmcyhydx" path="res://Objects/test_enemy.tscn" id="2_5tng7"]
+[ext_resource type="PackedScene" uid="uid://lir0xmncqhfo" path="res://Objects/Player.tscn" id="1_p5mk7"]
+[ext_resource type="PackedScene" path="res://Objects/test_enemy.tscn" id="2_5tng7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lv8da"]
 size = Vector2(576, 128)
