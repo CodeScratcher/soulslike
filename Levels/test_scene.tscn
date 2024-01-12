@@ -1,10 +1,10 @@
 [gd_scene load_steps=5 format=3 uid="uid://djhm6uvkeixqq"]
 
-[ext_resource type="PackedScene" uid="uid://csv2le8er8kd3" path="res://Objects/Player.tscn" id="1_p5mk7"]
-[ext_resource type="PackedScene" uid="uid://d3am4wmcyhydx" path="res://Objects/test_enemy.tscn" id="2_5tng7"]
+[ext_resource type="PackedScene" uid="uid://lir0xmncqhfo" path="res://Objects/Player.tscn" id="1_p5mk7"]
+[ext_resource type="PackedScene" uid="uid://5ilcfle766r" path="res://Objects/test_enemy.tscn" id="2_5tng7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lv8da"]
-size = Vector2(576, 128)
+size = Vector2(1151, 128)
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_ri3h2"]
 
@@ -14,12 +14,12 @@ size = Vector2(576, 128)
 position = Vector2(304, 512)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(288, 64)
+position = Vector2(273.5, 64)
 shape = SubResource("RectangleShape2D_lv8da")
 
 [node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
-position = Vector2(287.875, 63.875)
-scale = Vector2(576.25, 128.25)
+position = Vector2(273.5, 63.875)
+scale = Vector2(1151, 128.25)
 texture = SubResource("PlaceholderTexture2D_ri3h2")
 
 [node name="Player" parent="." instance=ExtResource("1_p5mk7")]
