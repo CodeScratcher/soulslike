@@ -23,3 +23,4 @@ texture = SubResource("PlaceholderTexture2D_ri3h2")
 
 [node name="Player" parent="." instance=ExtResource("1_p5mk7")]
 position = Vector2(515, 472)
+JUMP_VELOCITY = -199.56
