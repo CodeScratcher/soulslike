@@ -10,19 +10,19 @@ height = 72.0
 height = 72.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3lqeg"]
-size = Vector2(44, 72)
+size = Vector2(22, 72)
 
 [node name="TestEnemy" type="CharacterBody2D"]
 collision_layer = 4
 script = ExtResource("1_faffx")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(32, 34)
-scale = Vector2(0.5, 0.5625)
+position = Vector2(20, 34)
+scale = Vector2(0.3125, 0.5625)
 texture = ExtResource("1_brvmh")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
-position = Vector2(54, 34)
+position = Vector2(30, 34)
 shape = SubResource("CapsuleShape2D_fbocd")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -30,5 +30,5 @@ position = Vector2(10, 34)
 shape = SubResource("CapsuleShape2D_k6hhj")
 
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="."]
-position = Vector2(32, 34)
+position = Vector2(20, 34)
 shape = SubResource("RectangleShape2D_3lqeg")
