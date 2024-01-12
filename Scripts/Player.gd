@@ -59,3 +59,10 @@ func _physics_process(delta):
 	
 	if Input.is_action_pressed("roll") and velocity.x != 0 and is_on_floor():
 		$AnimationPlayer.play("roll")
+
+
+func hit(area):
+	hp -= 10
+	
+	if hp <= 0:
+		get_tree().reload_current_scene()
