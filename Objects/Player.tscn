@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://csv2le8er8kd3"]
+[gd_scene load_steps=10 format=3 uid="uid://csv2le8er8kd3"]
 
 [ext_resource type="Script" path="res://Scripts/Player.gd" id="1_ck7nh"]
 [ext_resource type="Texture2D" uid="uid://duyvdhdn6yd5l" path="res://icon.svg" id="2_oq334"]
@@ -8,6 +8,7 @@ size = Vector2(48, 72)
 
 [sub_resource type="Animation" id="Animation_xbd5x"]
 resource_name = "attack"
+length = 0.3
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -15,7 +16,7 @@ tracks/0/path = NodePath("Hitbox:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
+"times": PackedFloat32Array(0, 0.3),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
@@ -27,7 +28,7 @@ tracks/1/path = NodePath("Hitbox/CollisionShape2D:disabled")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 1),
+"times": PackedFloat32Array(0, 0.3),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [false, true]
@@ -72,10 +73,50 @@ tracks/2/keys = {
 "values": [1, 5]
 }
 
+[sub_resource type="Animation" id="Animation_hwddi"]
+resource_name = "roll_left"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, -6.28319]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Hurtbox/HurtboxCollider:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.2, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:collision_mask")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(-0.1, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [1, 5]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_kr5nq"]
 _data = {
 "attack": SubResource("Animation_xbd5x"),
-"roll": SubResource("Animation_vm236")
+"roll": SubResource("Animation_vm236"),
+"roll_left": SubResource("Animation_hwddi")
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qdofb"]
@@ -123,17 +164,17 @@ debug_color = Color(0.721569, 0.0745098, 0.733333, 0.419608)
 
 [node name="Hitbox" type="Area2D" parent="."]
 visible = false
-position = Vector2(62, -28)
+position = Vector2(16, -28)
 collision_layer = 16
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(14, 0)
+position = Vector2(68, 0)
 shape = SubResource("RectangleShape2D_8xc5h")
 disabled = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Hitbox"]
-position = Vector2(14, -9.53674e-07)
+position = Vector2(68, -9.53674e-07)
 scale = Vector2(0.4375, 0.3125)
 texture = ExtResource("2_oq334")
 
