@@ -62,7 +62,7 @@ func _physics_process(delta):
 		velocity.x = ROLL_SPEED * sign(velocity.x)
 	elif in_attack:
 		velocity.x = 0
-
+	
 	move_and_slide()
 	
 	if Input.is_action_just_pressed("roll") and velocity.x != 0 and is_on_floor() and neutral and stamina >= 25:
