@@ -7,6 +7,7 @@ extends CharacterBody2D
 @export var DECEL = 150.0
 @export var JUMP_VARIETY = 4
 @export var ROLL_SPEED = 400.0
+@export var STAMINA_REGEN = 25.0
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -18,11 +19,11 @@ var finished_jump = false
 var MAX_HP = 100
 var MAX_STAMINA = 100
 
-var hp = 100
-var stamina = 100
+var hp = MAX_HP
+var stamina = MAX_STAMINA
 
 func _physics_process(delta):
-	var in_roll = $AnimationPlayer.current_animation == "roll"
+	var in_roll = $AnimationPlayer.current_animation == "roll" or $AnimationPlayer.current_animation == "roll_left"
 	var in_attack = $AnimationPlayer.current_animation == "attack"
 	var neutral = (not in_roll) and (not in_attack)
 	# Add the gravity.
@@ -64,18 +65,19 @@ func _physics_process(delta):
 
 	move_and_slide()
 	
-	if Input.is_action_pressed("roll") and velocity.x != 0 and is_on_floor() and neutral and stamina >= 25:
+	if Input.is_action_just_pressed("roll") and velocity.x != 0 and is_on_floor() and neutral and stamina >= 25:
 		if velocity.x > 0:
 			$AnimationPlayer.play("roll")
 		else:
 			$AnimationPlayer.play("roll_left")
 		stamina -= 25
 		
-	if Input.is_action_pressed("light") and neutral and stamina >= 10:
+	if Input.is_action_just_pressed("light") and neutral and stamina >= 10:
 		$AnimationPlayer.play("attack")
 		stamina -= 10
 	
-	stamina += 5 * delta
+	if neutral:
+		stamina += STAMINA_REGEN * delta
 	
 	stamina = clamp(stamina, 0, 100)
 	
