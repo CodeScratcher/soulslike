@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://csv2le8er8kd3"]
+[gd_scene load_steps=10 format=3 uid="uid://lir0xmncqhfo"]
 
 [ext_resource type="Script" path="res://Scripts/Player.gd" id="1_ck7nh"]
 [ext_resource type="Texture2D" uid="uid://duyvdhdn6yd5l" path="res://icon.svg" id="2_oq334"]
@@ -125,7 +125,7 @@ size = Vector2(3, 3)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8xc5h"]
 size = Vector2(56, 40)
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["player"]]
 collision_layer = 8
 collision_mask = 5
 script = ExtResource("1_ck7nh")
@@ -143,6 +143,7 @@ shape = SubResource("RectangleShape2D_mf8uk")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2, 2)
+limit_smoothed = true
 position_smoothing_enabled = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
