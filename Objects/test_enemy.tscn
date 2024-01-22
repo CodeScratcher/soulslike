@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://d3am4wmcyhydx"]
+[gd_scene load_steps=8 format=3 uid="uid://d3am4wmcyhydx"]
 
 [ext_resource type="Texture2D" uid="uid://duyvdhdn6yd5l" path="res://icon.svg" id="1_brvmh"]
 [ext_resource type="Script" path="res://Scripts/test_enemy.gd" id="1_faffx"]
@@ -14,6 +14,9 @@ size = Vector2(22, 72)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nrqcj"]
 size = Vector2(40, 72)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3tact"]
+radius = 196.01
 
 [node name="TestEnemy" type="CharacterBody2D"]
 collision_layer = 4
@@ -45,4 +48,13 @@ collision_mask = 16
 position = Vector2(-10, 0)
 shape = SubResource("RectangleShape2D_nrqcj")
 
+[node name="detect_radius" type="Area2D" parent="."]
+collision_mask = 9
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="detect_radius"]
+position = Vector2(20, 34)
+shape = SubResource("CircleShape2D_3tact")
+
 [connection signal="area_entered" from="Area2D" to="." method="enemy_bonked"]
+[connection signal="body_entered" from="detect_radius" to="." method="_on_detect_radius_body_entered"]
+[connection signal="body_exited" from="detect_radius" to="." method="_on_detect_radius_body_exited"]
