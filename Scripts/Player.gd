@@ -16,11 +16,13 @@ var jump_timer = 0.0
 var started_jump = false
 var finished_jump = false
 
-var MAX_HP = 100
-var MAX_STAMINA = 100
+var MAX_HP = 100.0
+var MAX_STAMINA = 100.0
 
 var hp = MAX_HP
 var stamina = MAX_STAMINA
+
+var hit_iframes = 0
 
 func _physics_process(delta):
 	var in_roll = $AnimationPlayer.current_animation == "roll" or $AnimationPlayer.current_animation == "roll_left"
@@ -88,8 +90,13 @@ func _physics_process(delta):
 		$Hitbox.scale.x = -1
 		$Sprite2D.flip_h = true
 
-func hit(area):
-	hp -= 10
+	hit_iframes -= 1
 	
-	if hp <= 0:
-		get_tree().reload_current_scene()
+func hit(area):
+	if hit_iframes <= 0:
+		hit_iframes = 5
+		hp -= 10
+		
+		
+		if hp <= 0:
+			get_tree().reload_current_scene()
