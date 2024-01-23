@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://d3am4wmcyhydx"]
+[gd_scene load_steps=14 format=3 uid="uid://d3am4wmcyhydx"]
 
 [ext_resource type="Texture2D" uid="uid://duyvdhdn6yd5l" path="res://icon.svg" id="1_brvmh"]
 [ext_resource type="Script" path="res://Scripts/test_enemy.gd" id="1_faffx"]
@@ -57,18 +57,58 @@ tracks/2/keys = {
 "values": [Vector2(0, 0), Vector2(50, 0), Vector2(-10, 0), Vector2(0, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_m322i"]
+resource_name = "attack_left"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Hitbox:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Hitbox/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Hitbox:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.1, 0.4, 0.7, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(50, 0), Vector2(-10, 0), Vector2(0, 0)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_p3w34"]
 _data = {
-"attack": SubResource("Animation_36tgk")
+"attack": SubResource("Animation_36tgk"),
+"attack_left": SubResource("Animation_m322i")
 }
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_2s0me"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8mevr"]
-size = Vector2(66.125, 31)
+size = Vector2(40, 31.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_70ng5"]
-size = Vector2(8.4e+06, 6.40003e+06)
+size = Vector2(8.2e+06, 6.20002e+06)
 
 [node name="TestEnemy" type="CharacterBody2D"]
 collision_layer = 4
@@ -117,12 +157,12 @@ visible = false
 collision_layer = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="Hitbox"]
-position = Vector2(23.9844, 32)
-scale = Vector2(68.0312, 30)
+position = Vector2(20, 32)
+scale = Vector2(40, 31)
 texture = SubResource("PlaceholderTexture2D_2s0me")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(22.9375, 32)
+position = Vector2(20, 32.25)
 shape = SubResource("RectangleShape2D_8mevr")
 disabled = true
 
@@ -130,7 +170,7 @@ disabled = true
 collision_mask = 9
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
-position = Vector2(46, 34)
+position = Vector2(41, 32.9999)
 scale = Vector2(1e-05, 1e-05)
 shape = SubResource("RectangleShape2D_70ng5")
 
