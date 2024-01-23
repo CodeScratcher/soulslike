@@ -32,3 +32,9 @@ func _on_detect_radius_body_entered(body):
 func _on_detect_radius_body_exited(body):
 	if body.is_in_group("player"):
 		target = null
+
+
+
+func _on_attack_area_body_entered(body):
+	if body.is_in_group("player"):
+		$AnimationPlayer.play("attack")
