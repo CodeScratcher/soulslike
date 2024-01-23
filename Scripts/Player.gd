@@ -23,6 +23,7 @@ var hp = MAX_HP
 var stamina = MAX_STAMINA
 
 var hit_iframes = 0
+var flasks = 4
 
 func _physics_process(delta):
 	var in_roll = $AnimationPlayer.current_animation == "roll" or $AnimationPlayer.current_animation == "roll_left"
@@ -92,11 +93,20 @@ func _physics_process(delta):
 
 	hit_iframes -= 1
 	
+	heal()
+	
 func hit(area):
 	if hit_iframes <= 0:
 		hit_iframes = 5
 		hp -= 10
 		
-		
 		if hp <= 0:
 			get_tree().reload_current_scene()
+
+func heal():
+	if Input.is_action_just_pressed("heal"):
+		if flasks > 0:
+			hp += 30
+			flasks -= 1
+			if hp > MAX_HP:
+				hp = MAX_HP
