@@ -10,11 +10,11 @@ size = Vector2(1151, 128)
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_ri3h2"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_b6jd2"]
-size = Vector2(848, 520)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_srvug"]
-size = Vector2(1152, 640)
+size = Vector2(1176, 640)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r8mlm"]
+size = Vector2(1168, 400)
 
 [node name="TestScene" type="Node2D"]
 
@@ -52,21 +52,22 @@ position = Vector2(276, 64)
 scale = Vector2(1151, 128.25)
 texture = SubResource("PlaceholderTexture2D_ri3h2")
 
-[node name="Room2" type="Area2D" parent="."]
-collision_mask = 9
-script = ExtResource("4_1veg3")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Room2"]
-position = Vector2(1576, 340)
-shape = SubResource("RectangleShape2D_b6jd2")
-
 [node name="Room1" type="Area2D" parent="."]
 collision_mask = 9
 script = ExtResource("4_1veg3")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Room1"]
-position = Vector2(576, 320)
+position = Vector2(588, 320)
 shape = SubResource("RectangleShape2D_srvug")
 
-[connection signal="body_entered" from="Room2" to="Room2" method="_on_body_entered"]
+[node name="Room2" type="Area2D" parent="."]
+position = Vector2(1144, -32)
+collision_mask = 9
+script = ExtResource("4_1veg3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Room2"]
+position = Vector2(568, 424)
+shape = SubResource("RectangleShape2D_r8mlm")
+
 [connection signal="body_entered" from="Room1" to="Room1" method="_on_body_entered"]
+[connection signal="body_entered" from="Room2" to="Room2" method="_on_body_entered"]
