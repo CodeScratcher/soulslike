@@ -15,6 +15,12 @@ func _physics_process(delta):
 	if target:
 		velocity.x = sign(global_position.direction_to(target.global_position).x) * SPEED
 		
+	if velocity.x != 0:
+		$Sprite2D.flip_h = sign(velocity.x) > 0
+		$Hitbox.scale.x = sign(velocity.x)
+		$AttackArea.position.x
+		$AttackArea.scale.x = sign(velocity.x)
+		
 	move_and_slide()
 
 

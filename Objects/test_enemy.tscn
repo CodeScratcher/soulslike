@@ -54,7 +54,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0.1, 0.4, 0.7, 1),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(0, 0), Vector2(-50, 0), Vector2(-10, 0), Vector2(0, 0)]
+"values": [Vector2(0, 0), Vector2(50, 0), Vector2(-10, 0), Vector2(0, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_p3w34"]
@@ -68,7 +68,7 @@ _data = {
 size = Vector2(68.25, 31)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_70ng5"]
-size = Vector2(64, 56)
+size = Vector2(1.2e+07, 6.40003e+06)
 
 [node name="TestEnemy" type="CharacterBody2D"]
 collision_layer = 4
@@ -113,7 +113,6 @@ libraries = {
 }
 
 [node name="Hitbox" type="Area2D" parent="."]
-visible = false
 collision_layer = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="Hitbox"]
@@ -124,13 +123,13 @@ texture = SubResource("PlaceholderTexture2D_2s0me")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 position = Vector2(24, 32)
 shape = SubResource("RectangleShape2D_8mevr")
-disabled = true
 
 [node name="AttackArea" type="Area2D" parent="."]
 collision_mask = 9
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
-position = Vector2(-32, 36)
+position = Vector2(64, 34)
+scale = Vector2(1e-05, 1e-05)
 shape = SubResource("RectangleShape2D_70ng5")
 
 [connection signal="area_entered" from="Hurtbox" to="." method="enemy_bonked"]
