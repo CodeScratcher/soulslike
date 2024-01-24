@@ -17,8 +17,6 @@ func _physics_process(delta):
 		
 	if velocity.x != 0:
 		$Sprite2D.flip_h = sign(velocity.x) > 0
-		$Hitbox.scale.x = sign(velocity.x)
-		$AttackArea.position.x
 		$AttackArea.scale.x = sign(velocity.x)
 		
 	move_and_slide()
@@ -43,4 +41,7 @@ func _on_detect_radius_body_exited(body):
 
 func _on_attack_area_body_entered(body):
 	if body.is_in_group("player"):
-		$AnimationPlayer.play("attack")
+		if velocity.x > 0:
+			$AnimationPlayer.play("attack")
+		else:
+			$AnimationPlayer.play("attack_left")

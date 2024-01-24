@@ -55,7 +55,7 @@ tracks/1/path = NodePath("Hurtbox/HurtboxCollider:disabled")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.2, 0.8),
+"times": PackedFloat32Array(0, 0.8),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
@@ -94,7 +94,7 @@ tracks/1/path = NodePath("Hurtbox/HurtboxCollider:disabled")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.2, 0.8),
+"times": PackedFloat32Array(0, 0.8),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
@@ -133,7 +133,6 @@ metadata/_edit_horizontal_guides_ = [-24.0, -72.0]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(16, -28)
-rotation = 6.28319
 scale = Vector2(0.375, 0.5625)
 texture = ExtResource("2_oq334")
 
