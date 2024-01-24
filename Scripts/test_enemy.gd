@@ -8,6 +8,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var hp = 30
 var target = null
 var player_in_range = false
+var atk_cooldown = 2.0
 
 func _physics_process(delta):
 	if not is_on_floor():
@@ -15,12 +16,24 @@ func _physics_process(delta):
 		
 	if target:
 		velocity.x = sign(global_position.direction_to(target.global_position).x) * SPEED
-		
+	else:
+		velocity.x = 0
 	if velocity.x != 0:
 		$Sprite2D.flip_h = sign(velocity.x) > 0
 		$AttackArea.scale.x = sign(velocity.x)
 		
 	move_and_slide()
+	
+	atk_cooldown -= delta
+	print(atk_cooldown)
+	
+	if player_in_range == true:
+		if atk_cooldown <= 0.0:
+			if velocity.x > 0:
+				$AnimationPlayer.play("attack")
+			else:
+				$AnimationPlayer.play("attack_left")
+			atk_cooldown = 2.0
 
 
 func enemy_bonked(area):
@@ -39,12 +52,10 @@ func _on_detect_radius_body_exited(body):
 		target = null
 
 
-
 func _on_attack_area_body_entered(body):
 	if body.is_in_group("player"):
 		player_in_range = true
-		if player_in_range == true:
-			if velocity.x > 0:
-				$AnimationPlayer.play("attack")
-			else:
-				$AnimationPlayer.play("attack_left")
+
+func _on_attack_area_body_exited(body):
+	if body.is_in_group("player"):
+		player_in_range = false
