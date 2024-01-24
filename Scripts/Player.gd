@@ -11,7 +11,7 @@ extends CharacterBody2D
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
-# Timer for variable jumps and coyote time
+# Timer for variable ajumps and coyote time
 var jump_timer = 0.0
 var started_jump = false
 var finished_jump = false
@@ -84,11 +84,13 @@ func _physics_process(delta):
 		handle_roll(delta)
 		handle_attack(delta)
 	elif in_roll:
-		velocity.x = ROLL_SPEED * sign(velocity.x)
+		print(velocity.x)
+		velocity.x = ROLL_SPEED * (-1 if $Sprite2D.flip_h else 1)
 	elif in_attack:
 		velocity.x = 0
 	
 	move_and_slide()
+	
 	
 	if neutral and not started_jump:
 		stamina += STAMINA_REGEN * delta
