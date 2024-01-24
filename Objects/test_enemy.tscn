@@ -178,3 +178,4 @@ shape = SubResource("RectangleShape2D_70ng5")
 [connection signal="body_entered" from="DetectRadius" to="." method="_on_detect_radius_body_entered"]
 [connection signal="body_exited" from="DetectRadius" to="." method="_on_detect_radius_body_exited"]
 [connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]
+[connection signal="body_exited" from="AttackArea" to="." method="_on_attack_area_body_exited"]
