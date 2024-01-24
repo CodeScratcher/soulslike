@@ -7,6 +7,7 @@ const SPEED = 75.0
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var hp = 30
 var target = null
+var player_in_range = false
 
 func _physics_process(delta):
 	if not is_on_floor():
@@ -41,7 +42,9 @@ func _on_detect_radius_body_exited(body):
 
 func _on_attack_area_body_entered(body):
 	if body.is_in_group("player"):
-		if velocity.x > 0:
-			$AnimationPlayer.play("attack")
-		else:
-			$AnimationPlayer.play("attack_left")
+		player_in_range = true
+		if player_in_range == true:
+			if velocity.x > 0:
+				$AnimationPlayer.play("attack")
+			else:
+				$AnimationPlayer.play("attack_left")
