@@ -25,8 +25,8 @@ var stamina = MAX_STAMINA
 var hit_iframes = 0
 var flasks = 4
 
-var light_damage = 5;
-var heavy_damage = 25;
+var light_damage = 5
+var heavy_damage = 25
 
 func handle_gravity(delta):
 	if not is_on_floor():
@@ -78,12 +78,7 @@ func handle_heavy_attack(delta):
 	if Input.is_action_just_pressed("heavy") and stamina >= 35:
 		$AnimationPlayer.play("heavy_attack")
 		stamina -= 35
-
-func _on_hitbox_body_entered(body):
-	if $AnimationPlayer.current_animation == "attack" and body.is_in_group("enemy"):
-		body.hp -= light_damage
-	elif $AnimationPlayer.current_animation == "heavy_attack" and body.is_in_group("enemy"):
-		body.hp -= heavy_damage
+	
 
 func _physics_process(delta):
 	var in_roll = $AnimationPlayer.current_animation == "roll" or $AnimationPlayer.current_animation == "roll_left"
@@ -99,7 +94,6 @@ func _physics_process(delta):
 		handle_attack(delta)
 		handle_heavy_attack(delta)
 	elif in_roll:
-		print(velocity.x)
 		velocity.x = ROLL_SPEED * (-1 if $Sprite2D.flip_h else 1)
 	elif in_attack:
 		velocity.x = 0
@@ -131,3 +125,11 @@ func heal():
 			flasks -= 1
 		# look at the clamp function
 		hp = clamp(hp, 0, MAX_HP)
+
+
+func _on_hitbox_area_entered(area):
+	var body = area.get_parent()
+	if $AnimationPlayer.current_animation == "attack" and body.is_in_group("enemy"):
+		body.hp -= light_damage
+	elif $AnimationPlayer.current_animation == "heavy_attack" and body.is_in_group("enemy"):
+		body.hp -= heavy_damage

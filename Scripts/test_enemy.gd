@@ -9,7 +9,7 @@ var hp = 30
 var target = null
 var player_in_range = false
 var atk_cooldown = 2.0
-var damage = 20;
+var damage = 20
 
 func _physics_process(delta):
 	if not is_on_floor():
@@ -26,7 +26,6 @@ func _physics_process(delta):
 	move_and_slide()
 	
 	atk_cooldown -= delta
-	print(atk_cooldown)
 	
 	if player_in_range == true:
 		if atk_cooldown <= 0.0:
@@ -35,6 +34,8 @@ func _physics_process(delta):
 			else:
 				$AnimationPlayer.play("attack_left")
 			atk_cooldown = 2.0
+	if hp <= 0:
+			queue_free()
 
 
 func _on_detect_radius_body_entered(body):
@@ -55,8 +56,11 @@ func _on_attack_area_body_exited(body):
 	if body.is_in_group("player"):
 		player_in_range = false
 
-func _on_hitbox_body_entered(body):
-	if $AnimationPlayer.current_animation == "attack" and body.is_in_group("player"):
+func _on_hitbox_area_entered(area):
+	var body = area.get_parent()
+	print(body.hp)
+	var in_attack = $AnimationPlayer.current_animation == "attack" or $AnimationPlayer.current_animation == "attack_left"
+	if in_attack and body.is_in_group("player") and body.hit_iframes <= 0:
 		body.hp -= damage
-		if hp <= 0:
-			queue_free()
+		body.hit_iframes = 5.0
+		
