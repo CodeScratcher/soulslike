@@ -9,6 +9,7 @@ var hp = 30
 var target = null
 var player_in_range = false
 var atk_cooldown = 2.0
+var damage = 20;
 
 func _physics_process(delta):
 	if not is_on_floor():
@@ -36,11 +37,6 @@ func _physics_process(delta):
 			atk_cooldown = 2.0
 
 
-func enemy_bonked(area):
-	hp -= 10
-	if hp <= 0:
-		queue_free()
-
 func _on_detect_radius_body_entered(body):
 	print(body.name)
 	if body.is_in_group("player"):
@@ -58,3 +54,9 @@ func _on_attack_area_body_entered(body):
 func _on_attack_area_body_exited(body):
 	if body.is_in_group("player"):
 		player_in_range = false
+
+func _on_hitbox_body_entered(body):
+	if $AnimationPlayer.current_animation == "attack" and body.is_in_group("player"):
+		body.hp -= damage
+		if hp <= 0:
+			queue_free()

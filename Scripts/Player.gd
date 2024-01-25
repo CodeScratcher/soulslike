@@ -25,6 +25,9 @@ var stamina = MAX_STAMINA
 var hit_iframes = 0
 var flasks = 4
 
+var light_damage = 5;
+var heavy_damage = 25;
+
 func handle_gravity(delta):
 	if not is_on_floor():
 		velocity.y += gravity * delta
@@ -76,6 +79,12 @@ func handle_heavy_attack(delta):
 		$AnimationPlayer.play("heavy_attack")
 		stamina -= 35
 
+func _on_hitbox_body_entered(body):
+	if $AnimationPlayer.current_animation == "attack" and body.is_in_group("enemy"):
+		body.hp -= light_damage
+	elif $AnimationPlayer.current_animation == "heavy_attack" and body.is_in_group("enemy"):
+		body.hp -= heavy_damage
+
 func _physics_process(delta):
 	var in_roll = $AnimationPlayer.current_animation == "roll" or $AnimationPlayer.current_animation == "roll_left"
 	var in_attack = $AnimationPlayer.current_animation == "attack" or $AnimationPlayer.current_animation == "heavy_attack"
@@ -114,14 +123,6 @@ func _physics_process(delta):
 	
 	heal()
 	
-func hit(area):
-	if hit_iframes <= 0:
-		hit_iframes = 5
-		hp -= 10
-		
-		if hp <= 0:
-			get_tree().reload_current_scene()
-
 func heal():
 	if Input.is_action_just_pressed("heal"):
 		# learn about and statements
