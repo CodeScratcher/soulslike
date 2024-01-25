@@ -38,7 +38,6 @@ func _physics_process(delta):
 
 func enemy_bonked(area):
 	hp -= 10
-	
 	if hp <= 0:
 		queue_free()
 

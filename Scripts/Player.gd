@@ -71,9 +71,14 @@ func handle_attack(delta):
 		$AnimationPlayer.play("attack")
 		stamina -= 10
 
+func handle_heavy_attack(delta):
+	if Input.is_action_just_pressed("heavy") and stamina >= 35:
+		$AnimationPlayer.play("heavy_attack")
+		stamina -= 35
+
 func _physics_process(delta):
 	var in_roll = $AnimationPlayer.current_animation == "roll" or $AnimationPlayer.current_animation == "roll_left"
-	var in_attack = $AnimationPlayer.current_animation == "attack"
+	var in_attack = $AnimationPlayer.current_animation == "attack" or $AnimationPlayer.current_animation == "heavy_attack"
 	var neutral = (not in_roll) and (not in_attack)
 
 	handle_gravity(delta)
@@ -83,6 +88,7 @@ func _physics_process(delta):
 		handle_jump(delta)
 		handle_roll(delta)
 		handle_attack(delta)
+		handle_heavy_attack(delta)
 	elif in_roll:
 		print(velocity.x)
 		velocity.x = ROLL_SPEED * (-1 if $Sprite2D.flip_h else 1)
@@ -119,10 +125,8 @@ func hit(area):
 func heal():
 	if Input.is_action_just_pressed("heal"):
 		# learn about and statements
-		if hp != MAX_HP:
-			if flasks > 0:
-				hp += 30
-				flasks -= 1
-			# look at the clamp function
-			if hp > MAX_HP:
-				hp = MAX_HP
+		if hp != MAX_HP and flasks > 0:
+			hp += 30
+			flasks -= 1
+		# look at the clamp function
+		hp = clamp(hp, 0, MAX_HP)
