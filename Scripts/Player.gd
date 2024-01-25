@@ -118,9 +118,11 @@ func hit(area):
 
 func heal():
 	if Input.is_action_just_pressed("heal"):
+		# learn about and statements
 		if hp != MAX_HP:
 			if flasks > 0:
 				hp += 30
 				flasks -= 1
+			# look at the clamp function
 			if hp > MAX_HP:
 				hp = MAX_HP
