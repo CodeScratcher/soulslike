@@ -133,3 +133,8 @@ func _on_hitbox_area_entered(area):
 		body.hp -= light_damage
 	elif $AnimationPlayer.current_animation == "heavy_attack" and body.is_in_group("enemy"):
 		body.hp -= heavy_damage
+
+func _on_block_area_area_entered(area):
+	var body = area.get_parent()
+	if $AnimationPlayer.current_animation == "block" and body.is_in_group("enemy"):
+		
