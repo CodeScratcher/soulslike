@@ -112,6 +112,8 @@ func _physics_process(delta):
 	elif velocity.x < 0:
 		$Hitbox.scale.x = -1
 		$Sprite2D.flip_h = true
+	
+	block()
 
 	hit_iframes -= 1
 	
@@ -134,7 +136,13 @@ func _on_hitbox_area_entered(area):
 	elif $AnimationPlayer.current_animation == "heavy_attack" and body.is_in_group("enemy"):
 		body.hp -= heavy_damage
 
-func _on_block_area_area_entered(area):
-	var body = area.get_parent()
-	if $AnimationPlayer.current_animation == "block" and body.is_in_group("enemy"):
-		
+func block():
+	if Input.is_action_pressed("block"):
+		$BlockArea.visible = true
+		$BlockArea/CollisionShape2D.disabled = false
+		stamina -= 0.6
+		MAX_SPEED = 150.0
+	else:
+		$BlockArea.visible = false
+		$BlockArea/CollisionShape2D.disabled = true
+		MAX_SPEED = 300.0

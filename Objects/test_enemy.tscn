@@ -153,7 +153,7 @@ libraries = {
 }
 
 [node name="Hitbox" type="Area2D" parent="."]
-visible = false
+position = Vector2(33.3333, 0)
 collision_layer = 0
 collision_mask = 2
 
@@ -165,7 +165,6 @@ texture = SubResource("PlaceholderTexture2D_2s0me")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 position = Vector2(20, 32.25)
 shape = SubResource("RectangleShape2D_8mevr")
-disabled = true
 
 [node name="AttackArea" type="Area2D" parent="."]
 collision_mask = 9
