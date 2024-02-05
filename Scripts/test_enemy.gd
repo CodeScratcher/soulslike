@@ -61,6 +61,6 @@ func _on_hitbox_area_entered(area):
 	print(body.hp)
 	var in_attack = $AnimationPlayer.current_animation == "attack" or $AnimationPlayer.current_animation == "attack_left"
 	if in_attack and body.is_in_group("player") and body.hit_iframes <= 0:
-		body.hp -= damage
-		body.hit_iframes = 5.0
-		
+		if !body.get_node("BlockArea").visible:
+			body.hp -= damage
+			body.hit_iframes = 5.0
