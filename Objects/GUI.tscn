@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://d2j8drpmijmf0"]
+[gd_scene load_steps=9 format=3 uid="uid://d2j8drpmijmf0"]
 
 [ext_resource type="Script" path="res://Scripts/GUI.gd" id="1_2lrv1"]
 [ext_resource type="Texture2D" uid="uid://bx0kff31lhxxd" path="res://Textures/flask.png" id="2_ard8t"]
+[ext_resource type="Texture2D" uid="uid://cq8it0t4dwgn7" path="res://Textures/inventory.png" id="3_cyxig"]
 
 [sub_resource type="Gradient" id="Gradient_7c34m"]
 offsets = PackedFloat32Array(0)
