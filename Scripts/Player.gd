@@ -137,7 +137,7 @@ func _on_hitbox_area_entered(area):
 		body.hp -= heavy_damage
 
 func block():
-	if Input.is_action_pressed("block"):
+	if Input.is_action_pressed("block") and stamina > 10:
 		$BlockArea.visible = true
 		$BlockArea/CollisionShape2D.disabled = false
 		stamina -= 0.6

@@ -153,6 +153,7 @@ libraries = {
 }
 
 [node name="Hitbox" type="Area2D" parent="."]
+visible = false
 position = Vector2(33.3333, 0)
 collision_layer = 0
 collision_mask = 2
