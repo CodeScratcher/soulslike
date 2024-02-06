@@ -27,6 +27,7 @@ height = 20
 font_size = 24
 
 [node name="CanvasLayer" type="CanvasLayer"]
+process_mode = 3
 script = ExtResource("1_2lrv1")
 
 [node name="Gui" type="Control" parent="."]
@@ -83,6 +84,7 @@ text = "3"
 label_settings = SubResource("LabelSettings_bwv20")
 
 [node name="GridContainer" type="GridContainer" parent="Gui"]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
