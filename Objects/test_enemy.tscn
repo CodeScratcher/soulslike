@@ -170,7 +170,7 @@ shape = SubResource("RectangleShape2D_8mevr")
 collision_mask = 9
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
-position = Vector2(104, 64)
+position = Vector2(32, 32.9999)
 scale = Vector2(1e-05, 1e-05)
 shape = SubResource("RectangleShape2D_70ng5")
 
