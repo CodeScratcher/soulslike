@@ -9,7 +9,7 @@ var hp = 30
 var target = null
 var player_in_range = false
 var atk_cooldown = 2.0
-var damage = 20
+var damage = 25
 
 func _physics_process(delta):
 	if not is_on_floor():

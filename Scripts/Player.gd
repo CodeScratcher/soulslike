@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 
-@export var MAX_SPEED = 300.0
+@export var MAX_SPEED = 200.0
 @export var JUMP_VELOCITY = -200.0
 @export var ACCEL = 100.0
 @export var DECEL = 150.0
@@ -137,7 +137,7 @@ func _on_hitbox_area_entered(area):
 		body.hp -= heavy_damage
 
 func block():
-	if Input.is_action_pressed("block") and stamina > 10:
+	if Input.is_action_pressed("block"):
 		$BlockArea.visible = true
 		$BlockArea/CollisionShape2D.disabled = false
 		stamina -= 0.6
