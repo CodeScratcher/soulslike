@@ -108,9 +108,11 @@ func _physics_process(delta):
 	
 	if velocity.x > 0:
 		$Hitbox.scale.x = 1
+		$BlockArea.scale.x = 1
 		$Sprite2D.flip_h = false
 	elif velocity.x < 0:
 		$Hitbox.scale.x = -1
+		$BlockArea.scale.x = -1
 		$Sprite2D.flip_h = true
 	
 	block()
@@ -118,6 +120,9 @@ func _physics_process(delta):
 	hit_iframes -= 1
 	
 	heal()
+	
+	if hp <= 0:
+		get_tree().reload_current_scene()
 	
 func heal():
 	if Input.is_action_just_pressed("heal"):

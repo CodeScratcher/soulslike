@@ -56,11 +56,13 @@ func _on_attack_area_body_exited(body):
 	if body.is_in_group("player"):
 		player_in_range = false
 
+
 func _on_hitbox_area_entered(area):
 	var body = area.get_parent()
 	print(body.hp)
 	var in_attack = $AnimationPlayer.current_animation == "attack" or $AnimationPlayer.current_animation == "attack_left"
 	if in_attack and body.is_in_group("player") and body.hit_iframes <= 0:
-		if !body.get_node("BlockArea").visible:
+		print($Hitbox.overlaps_area(body.get_node("BlockArea")))
+		if !$Hitbox.overlaps_area(body.get_node("BlockArea")):
 			body.hp -= damage
 			body.hit_iframes = 5.0
