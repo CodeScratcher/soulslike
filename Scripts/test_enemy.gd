@@ -66,3 +66,4 @@ func _on_hitbox_area_entered(area):
 		if !$Hitbox.overlaps_area(body.get_node("BlockArea")):
 			body.hp -= damage
 			body.hit_iframes = 5.0
+	
