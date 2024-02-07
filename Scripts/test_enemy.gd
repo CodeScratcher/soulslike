@@ -12,6 +12,20 @@ var atk_cooldown = 2.0
 var damage = 25
 
 func _physics_process(delta):
+	for x in $Hitbox.get_overlapping_areas():
+		if x.name == "BlockArea" and x.visible:
+			print("OK")
+			$AnimationPlayer.play("RESET")
+	
+	for x in $Hitbox.get_overlapping_areas():
+		var body = x.get_parent()
+		var in_attack = $AnimationPlayer.current_animation == "attack" or $AnimationPlayer.current_animation == "attack_left"
+		if in_attack and body.is_in_group("player") and body.hit_iframes <= 0:
+			print("HURT")
+			body.hp -= damage
+			print(body.hit_iframes)
+			body.hit_iframes = 2.0
+	
 	if not is_on_floor():
 		velocity.y += gravity * delta
 		
@@ -57,17 +71,3 @@ func _on_attack_area_body_exited(body):
 		player_in_range = false
 
 
-func _on_hitbox_area_entered(area):
-	var body = area.get_parent()
-	if $Hitbox.overlaps_area(body.get_node("BlockArea")) and ($AnimationPlayer.current_animation == "attack" or $AnimationPlayer.current_animation == "attack_left"):
-		print("OK")
-		$AnimationPlayer.play("RESET")
-		return
-
-	var in_attack = $AnimationPlayer.current_animation == "attack" or $AnimationPlayer.current_animation == "attack_left"
-	if in_attack and body.is_in_group("player") and body.hit_iframes <= 0:
-		if $Hitbox.overlaps_area(body.get_node("BlockArea")):
-			print("AAAAAAA")
-		print("HURT")
-		body.hp -= damage
-		body.hit_iframes = 5.0

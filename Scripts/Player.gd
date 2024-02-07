@@ -117,7 +117,7 @@ func _physics_process(delta):
 	
 	block()
 
-	hit_iframes -= 1
+	hit_iframes -= delta
 	
 	heal()
 	

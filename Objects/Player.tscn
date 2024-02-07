@@ -157,9 +157,8 @@ size = Vector2(3, 3)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8xc5h"]
 size = Vector2(48, 32)
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_m2rfm"]
-radius = 24.0
-height = 96.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jmu7u"]
+size = Vector2(32, 72)
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_db7ct"]
 
@@ -218,13 +217,14 @@ scale = Vector2(1.5, 1.875)
 texture = ExtResource("3_gu23v")
 
 [node name="BlockArea" type="Area2D" parent="."]
+visible = false
 position = Vector2(16, -28)
 collision_layer = 2
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BlockArea"]
 position = Vector2(32, 0)
-shape = SubResource("CapsuleShape2D_m2rfm")
+shape = SubResource("RectangleShape2D_jmu7u")
 disabled = true
 debug_color = Color(0, 0.580392, 0.796078, 0.419608)
 
