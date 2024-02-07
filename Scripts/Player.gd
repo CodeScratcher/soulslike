@@ -72,11 +72,15 @@ func handle_roll(delta):
 func handle_attack(delta):
 	if Input.is_action_just_pressed("light") and stamina >= 10:
 		$AnimationPlayer.play("attack")
+		$Hitbox/HeavyAttack.visible = false
+		$Hitbox/LightAttack.visible = true
 		stamina -= 10
 
 func handle_heavy_attack(delta):
 	if Input.is_action_just_pressed("heavy") and stamina >= 35:
 		$AnimationPlayer.play("heavy_attack")
+		$Hitbox/HeavyAttack.visible = true
+		$Hitbox/LightAttack.visible = false
 		stamina -= 35
 	
 
