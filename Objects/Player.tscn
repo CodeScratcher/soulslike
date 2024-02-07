@@ -1,7 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://csv2le8er8kd3"]
+[gd_scene load_steps=14 format=3 uid="uid://csv2le8er8kd3"]
 
 [ext_resource type="Script" path="res://Scripts/Player.gd" id="1_ck7nh"]
 [ext_resource type="Texture2D" uid="uid://duyvdhdn6yd5l" path="res://icon.svg" id="2_oq334"]
+[ext_resource type="Texture2D" uid="uid://bc7xc3i4glf57" path="res://Textures/light-attack.png" id="3_gu23v"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mf8uk"]
 size = Vector2(48, 72)
@@ -154,7 +155,7 @@ _data = {
 size = Vector2(3, 3)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8xc5h"]
-size = Vector2(32, 40)
+size = Vector2(48, 32)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_m2rfm"]
 radius = 24.0
@@ -206,17 +207,17 @@ collision_layer = 0
 collision_mask = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(56, 0)
+position = Vector2(56, 4)
 shape = SubResource("RectangleShape2D_8xc5h")
 disabled = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Hitbox"]
-position = Vector2(56, -9.53674e-07)
-scale = Vector2(0.25, 0.3125)
-texture = ExtResource("2_oq334")
+texture_filter = 1
+position = Vector2(56, 4)
+scale = Vector2(1.5, 1.875)
+texture = ExtResource("3_gu23v")
 
 [node name="BlockArea" type="Area2D" parent="."]
-visible = false
 position = Vector2(16, -28)
 collision_layer = 2
 collision_mask = 0
@@ -225,6 +226,7 @@ collision_mask = 0
 position = Vector2(32, 0)
 shape = SubResource("CapsuleShape2D_m2rfm")
 disabled = true
+debug_color = Color(0, 0.580392, 0.796078, 0.419608)
 
 [node name="Sprite2D" type="Sprite2D" parent="BlockArea"]
 position = Vector2(32, 0)
