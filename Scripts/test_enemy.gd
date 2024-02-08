@@ -1,8 +1,7 @@
 extends CharacterBody2D
 
 
-@export var MAX_SPEED = 300.0
-const SPEED = 75.0
+@export var MAX_SPEED = 200.0
 
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var hp = 30
@@ -30,7 +29,7 @@ func _physics_process(delta):
 		velocity.y += gravity * delta
 		
 	if target:
-		velocity.x = sign(global_position.direction_to(target.global_position).x) * SPEED
+		velocity.x = sign(global_position.direction_to(target.global_position).x) * MAX_SPEED
 	else:
 		velocity.x = 0
 	if velocity.x != 0:
