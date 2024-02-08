@@ -28,12 +28,15 @@ var flasks = 4
 var light_damage = 5
 var heavy_damage = 25
 
+var stamina_cooldown = 0.0
+
 enum PlayerState {
 	NEUTRAL,
 	JUMP,
 	ATTACK,
 	ROLL,
-	BLOCK
+	BLOCK,
+	RECOVER
 }
 
 var state = PlayerState.NEUTRAL
@@ -56,6 +59,7 @@ func handle_jump(delta):
 	if Input.is_action_pressed("jump") and jump_timer < JUMP_VARIETY and not finished_jump and stamina > 1.5:
 		velocity.y = JUMP_VELOCITY
 		stamina -= 1.5
+		stamina_cooldown = 1.0
 		
 		# Coyote time
 		if not started_jump:
@@ -79,6 +83,7 @@ func handle_roll(delta):
 		else:
 			$AnimationPlayer.play("roll_left")
 		stamina -= 25
+		stamina_cooldown = 1.0
 		state = PlayerState.ROLL
 
 func handle_attack(delta):
@@ -87,6 +92,7 @@ func handle_attack(delta):
 		$Hitbox/HeavyAttack.visible = false
 		$Hitbox/LightAttack.visible = true
 		stamina -= 10
+		stamina_cooldown = 1.0
 		state = PlayerState.ATTACK
 
 func handle_heavy_attack(delta):
@@ -95,13 +101,19 @@ func handle_heavy_attack(delta):
 		$Hitbox/HeavyAttack.visible = true
 		$Hitbox/LightAttack.visible = false
 		stamina -= 35
+		stamina_cooldown = 1.0
 		state = PlayerState.ATTACK
 	
 
 
 
 func _physics_process(delta):
-	if not ($AnimationPlayer.current_animation == "light_attack" or $AnimationPlayer.current_animation == "heavy_attack" or $AnimationPlayer.current_animation == "roll" or $BlockArea.visible) and is_on_floor():
+	if stamina <= 0:
+		state = PlayerState.RECOVER
+		$BlockArea.visible = false
+		$BlockArea/CollisionShape2D.disabled = true
+		MAX_SPEED = 150.0
+	if not ($AnimationPlayer.current_animation == "light_attack" or $AnimationPlayer.current_animation == "heavy_attack" or $AnimationPlayer.current_animation == "roll" or $BlockArea.visible) and is_on_floor() and not state == PlayerState.RECOVER:
 		state = PlayerState.NEUTRAL
 
 	handle_gravity(delta)
@@ -121,11 +133,18 @@ func _physics_process(delta):
 		handle_movement(delta)
 		handle_jump(delta)
 		block()
+	elif state == PlayerState.RECOVER:
+		handle_movement(delta)
+		if stamina >= MAX_STAMINA * 0.5:
+			state = PlayerState.NEUTRAL
+			MAX_SPEED = 300.0
 	
 	move_and_slide()
 	
-	
-	if state == PlayerState.NEUTRAL and not started_jump:
+	if state == PlayerState.NEUTRAL or state == PlayerState.RECOVER:
+		stamina_cooldown -= delta
+		
+	if stamina_cooldown <= 0.0  and not started_jump:
 		stamina += STAMINA_REGEN * delta
 	
 	stamina = clamp(stamina, 0, 100)
@@ -171,7 +190,8 @@ func block():
 		$BlockArea.visible = true
 		$BlockArea/CollisionShape2D.disabled = false
 		state = PlayerState.BLOCK
-		stamina -= 0.6
+		stamina -= 0.3
+		stamina_cooldown = 1.0
 		MAX_SPEED = 150.0
 	else:
 		$BlockArea.visible = false

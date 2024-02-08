@@ -1,0 +1,243 @@
+[gd_scene load_steps=15 format=3 uid="uid://csv2le8er8kd3"]
+
+[ext_resource type="Script" path="res://Scripts/Player.gd" id="1_ck7nh"]
+[ext_resource type="Texture2D" uid="uid://duyvdhdn6yd5l" path="res://icon.svg" id="2_oq334"]
+[ext_resource type="Texture2D" uid="uid://bc7xc3i4glf57" path="res://Textures/light-attack.png" id="3_gu23v"]
+[ext_resource type="Texture2D" uid="uid://db1ybjmfque34" path="res://Textures/heavy-attack.png" id="3_xlr67"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mf8uk"]
+size = Vector2(48, 72)
+
+[sub_resource type="Animation" id="Animation_xbd5x"]
+resource_name = "attack"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Hitbox:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Hitbox/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="Animation" id="Animation_t3uy3"]
+resource_name = "heavy_attack"
+length = 1.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Hitbox:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.4, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Hitbox/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.4, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="Animation" id="Animation_vm236"]
+resource_name = "roll"
+length = 0.75
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.75),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 6.28319]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Hurtbox/HurtboxCollider:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:collision_mask")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(-0.1, 0.75),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [1, 5]
+}
+
+[sub_resource type="Animation" id="Animation_hwddi"]
+resource_name = "roll_left"
+length = 0.75
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.75),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, -6.28319]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Hurtbox/HurtboxCollider:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:collision_mask")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(-0.1, 0.75),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [1, 5]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kr5nq"]
+_data = {
+"attack": SubResource("Animation_xbd5x"),
+"heavy_attack": SubResource("Animation_t3uy3"),
+"roll": SubResource("Animation_vm236"),
+"roll_left": SubResource("Animation_hwddi")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qdofb"]
+size = Vector2(3, 3)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8xc5h"]
+size = Vector2(48, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jmu7u"]
+size = Vector2(32, 72)
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_db7ct"]
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+collision_layer = 8
+collision_mask = 5
+script = ExtResource("1_ck7nh")
+metadata/_edit_horizontal_guides_ = [-24.0, -72.0]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(16, -28)
+scale = Vector2(0.375, 0.5625)
+texture = ExtResource("2_oq334")
+
+[node name="Collider" type="CollisionShape2D" parent="."]
+position = Vector2(16, -28)
+shape = SubResource("RectangleShape2D_mf8uk")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2, 2)
+limit_smoothed = true
+position_smoothing_enabled = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_kr5nq")
+}
+speed_scale = 1.1
+
+[node name="Hurtbox" type="Area2D" parent="."]
+position = Vector2(0, -4)
+scale = Vector2(16, 24)
+collision_layer = 2
+collision_mask = 0
+
+[node name="HurtboxCollider" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(1, -1)
+shape = SubResource("RectangleShape2D_qdofb")
+debug_color = Color(0.721569, 0.0745098, 0.733333, 0.419608)
+
+[node name="Hitbox" type="Area2D" parent="."]
+visible = false
+position = Vector2(16, -28)
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(56, 4)
+shape = SubResource("RectangleShape2D_8xc5h")
+disabled = true
+
+[node name="HeavyAttack" type="Sprite2D" parent="Hitbox"]
+texture_filter = 1
+position = Vector2(56, 4)
+scale = Vector2(1.5, 1.875)
+texture = ExtResource("3_xlr67")
+
+[node name="LightAttack" type="Sprite2D" parent="Hitbox"]
+texture_filter = 1
+position = Vector2(56, 4)
+scale = Vector2(1.5, 1.875)
+texture = ExtResource("3_gu23v")
+
+[node name="BlockArea" type="Area2D" parent="."]
+visible = false
+position = Vector2(16, -28)
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BlockArea"]
+position = Vector2(32, 0)
+shape = SubResource("RectangleShape2D_jmu7u")
+disabled = true
+debug_color = Color(0, 0.580392, 0.796078, 0.419608)
+
+[node name="Sprite2D" type="Sprite2D" parent="BlockArea"]
+position = Vector2(32, 0)
+scale = Vector2(20.25, 68.125)
+texture = SubResource("PlaceholderTexture2D_db7ct")
+
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
