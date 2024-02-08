@@ -113,7 +113,7 @@ func _physics_process(delta):
 		$BlockArea.visible = false
 		$BlockArea/CollisionShape2D.disabled = true
 		MAX_SPEED = 150.0
-	if not ($AnimationPlayer.current_animation == "light_attack" or $AnimationPlayer.current_animation == "heavy_attack" or $AnimationPlayer.current_animation == "roll" or $BlockArea.visible) and is_on_floor() and not state == PlayerState.RECOVER:
+	if not ($AnimationPlayer.current_animation == "attack" or $AnimationPlayer.current_animation == "heavy_attack" or $AnimationPlayer.current_animation == "roll" or $BlockArea.visible) and is_on_floor() and not state == PlayerState.RECOVER:
 		state = PlayerState.NEUTRAL
 
 	handle_gravity(delta)
