@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Scripts/Player.gd" id="1_ck7nh"]
 [ext_resource type="Texture2D" uid="uid://duyvdhdn6yd5l" path="res://icon.svg" id="2_oq334"]
 [ext_resource type="Texture2D" uid="uid://bc7xc3i4glf57" path="res://Textures/light-attack.png" id="3_gu23v"]
-[ext_resource type="Texture2D" uid="uid://db1ybjmfque34" path="res://heavy-attack.png" id="4_jnphf"]
+[ext_resource type="Texture2D" uid="uid://db1ybjmfque34" path="res://Textures/heavy-attack.png" id="3_xlr67"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mf8uk"]
 size = Vector2(48, 72)
@@ -211,17 +211,17 @@ position = Vector2(56, 4)
 shape = SubResource("RectangleShape2D_8xc5h")
 disabled = true
 
+[node name="HeavyAttack" type="Sprite2D" parent="Hitbox"]
+texture_filter = 1
+position = Vector2(56, 4)
+scale = Vector2(1.5, 1.875)
+texture = ExtResource("3_xlr67")
+
 [node name="LightAttack" type="Sprite2D" parent="Hitbox"]
 texture_filter = 1
 position = Vector2(56, 4)
 scale = Vector2(1.5, 1.875)
 texture = ExtResource("3_gu23v")
-
-[node name="HeavyAttack" type="Sprite2D" parent="Hitbox"]
-texture_filter = 1
-position = Vector2(56, 0)
-scale = Vector2(2, 2.25)
-texture = ExtResource("4_jnphf")
 
 [node name="BlockArea" type="Area2D" parent="."]
 visible = false

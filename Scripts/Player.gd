@@ -28,6 +28,16 @@ var flasks = 4
 var light_damage = 5
 var heavy_damage = 25
 
+enum PlayerState {
+	NEUTRAL,
+	JUMP,
+	ATTACK,
+	ROLL,
+	BLOCK
+}
+
+var state = PlayerState.NEUTRAL
+
 func handle_gravity(delta):
 	if not is_on_floor():
 		velocity.y += gravity * delta
@@ -51,6 +61,7 @@ func handle_jump(delta):
 		if not started_jump:
 			started_jump = true
 			jump_timer = 0.0
+		state = PlayerState.JUMP
 
 func handle_movement(delta):
 	var direction = Input.get_axis("left", "right")
@@ -68,6 +79,7 @@ func handle_roll(delta):
 		else:
 			$AnimationPlayer.play("roll_left")
 		stamina -= 25
+		state = PlayerState.ROLL
 
 func handle_attack(delta):
 	if Input.is_action_just_pressed("light") and stamina >= 10:
@@ -75,6 +87,7 @@ func handle_attack(delta):
 		$Hitbox/HeavyAttack.visible = false
 		$Hitbox/LightAttack.visible = true
 		stamina -= 10
+		state = PlayerState.ATTACK
 
 func handle_heavy_attack(delta):
 	if Input.is_action_just_pressed("heavy") and stamina >= 35:
@@ -82,44 +95,52 @@ func handle_heavy_attack(delta):
 		$Hitbox/HeavyAttack.visible = true
 		$Hitbox/LightAttack.visible = false
 		stamina -= 35
+		state = PlayerState.ATTACK
 	
 
+
+
 func _physics_process(delta):
-	var in_roll = $AnimationPlayer.current_animation == "roll" or $AnimationPlayer.current_animation == "roll_left"
-	var in_attack = $AnimationPlayer.current_animation == "attack" or $AnimationPlayer.current_animation == "heavy_attack"
-	var neutral = (not in_roll) and (not in_attack)
+	if not ($AnimationPlayer.current_animation == "light_attack" or $AnimationPlayer.current_animation == "heavy_attack" or $AnimationPlayer.current_animation == "roll" or $BlockArea.visible) and is_on_floor():
+		state = PlayerState.NEUTRAL
 
 	handle_gravity(delta)
 
-	if neutral:
+	if state == PlayerState.NEUTRAL or state == PlayerState.JUMP:
 		handle_movement(delta)
 		handle_jump(delta)
 		handle_roll(delta)
 		handle_attack(delta)
 		handle_heavy_attack(delta)
-	elif in_roll:
+		block()
+	elif state == PlayerState.ROLL:
 		velocity.x = ROLL_SPEED * (-1 if $Sprite2D.flip_h else 1)
-	elif in_attack:
+	elif state == PlayerState.ATTACK:
 		velocity.x = 0
+	elif state == PlayerState.BLOCK:
+		handle_movement(delta)
+		handle_jump(delta)
+		block()
 	
 	move_and_slide()
 	
 	
-	if neutral and not started_jump:
+	if state == PlayerState.NEUTRAL and not started_jump:
 		stamina += STAMINA_REGEN * delta
 	
 	stamina = clamp(stamina, 0, 100)
 	
-	if velocity.x > 0:
-		$Hitbox.scale.x = 1
-		$BlockArea.scale.x = 1
-		$Sprite2D.flip_h = false
-	elif velocity.x < 0:
-		$Hitbox.scale.x = -1
-		$BlockArea.scale.x = -1
-		$Sprite2D.flip_h = true
+	if not state == PlayerState.BLOCK:
+		if velocity.x > 0:
+			$Hitbox.scale.x = 1
+			$BlockArea.scale.x = 1
+			$Sprite2D.flip_h = false
+		elif velocity.x < 0:
+			$Hitbox.scale.x = -1
+			$BlockArea.scale.x = -1
+			$Sprite2D.flip_h = true
 	
-	block()
+	
 
 	hit_iframes -= delta
 	
@@ -149,6 +170,7 @@ func block():
 	if Input.is_action_pressed("block"):
 		$BlockArea.visible = true
 		$BlockArea/CollisionShape2D.disabled = false
+		state = PlayerState.BLOCK
 		stamina -= 0.6
 		MAX_SPEED = 150.0
 	else:
