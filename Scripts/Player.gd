@@ -108,7 +108,7 @@ func handle_heavy_attack(delta):
 
 
 func _physics_process(delta):
-	if stamina <= 0:
+	if stamina <= 0 and state != PlayerState.ATTACK and state != PlayerState.ROLL:
 		state = PlayerState.RECOVER
 		$BlockArea.visible = false
 		$BlockArea/CollisionShape2D.disabled = true
@@ -125,6 +125,7 @@ func _physics_process(delta):
 		handle_attack(delta)
 		handle_heavy_attack(delta)
 		block()
+		heal()
 	elif state == PlayerState.ROLL:
 		velocity.x = ROLL_SPEED * (-1 if $Sprite2D.flip_h else 1)
 	elif state == PlayerState.ATTACK:
@@ -138,7 +139,7 @@ func _physics_process(delta):
 		if stamina >= MAX_STAMINA * 0.5:
 			state = PlayerState.NEUTRAL
 			MAX_SPEED = 300.0
-	
+		heal()
 	move_and_slide()
 	
 	if state == PlayerState.NEUTRAL or state == PlayerState.RECOVER:
@@ -163,7 +164,7 @@ func _physics_process(delta):
 
 	hit_iframes -= delta
 	
-	heal()
+	
 	
 	if hp <= 0:
 		get_tree().reload_current_scene()
