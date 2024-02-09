@@ -28,13 +28,12 @@ func _physics_process(delta):
 	if not is_on_floor():
 		velocity.y += gravity * delta
 		
-	if target:
+	if target and not player_in_range:
 		velocity.x = sign(global_position.direction_to(target.global_position).x) * MAX_SPEED
 	else:
 		velocity.x = 0
 	if velocity.x != 0:
 		$Sprite2D.flip_h = sign(velocity.x) > 0
-		$AttackArea.scale.x = sign(velocity.x)
 		
 	move_and_slide()
 	
@@ -42,7 +41,7 @@ func _physics_process(delta):
 	
 	if player_in_range == true:
 		if atk_cooldown <= 0.0:
-			if velocity.x > 0:
+			if sign(global_position.direction_to(target.global_position).x) > 0:
 				$AnimationPlayer.play("attack")
 			else:
 				$AnimationPlayer.play("attack_left")
