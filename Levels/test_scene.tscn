@@ -11,13 +11,13 @@ size = Vector2(1977, 128)
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_ri3h2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6l0i3"]
-size = Vector2(1152, 128)
+size = Vector2(2432, 128)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_srvug"]
 size = Vector2(1976, 640)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r8mlm"]
-size = Vector2(1152, 400)
+size = Vector2(2520, 400)
 
 [node name="TestScene" type="Node2D"]
 
@@ -46,12 +46,12 @@ position = Vector2(272, 386)
 position = Vector2(1444, 468)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
-position = Vector2(276, 64)
+position = Vector2(916, 64)
 shape = SubResource("RectangleShape2D_6l0i3")
 
 [node name="Sprite2D" type="Sprite2D" parent="StaticBody2D2"]
-position = Vector2(276, 64)
-scale = Vector2(1151, 128.25)
+position = Vector2(920.25, 64)
+scale = Vector2(2439.5, 128.25)
 texture = SubResource("PlaceholderTexture2D_ri3h2")
 
 [node name="Room1" type="Area2D" parent="."]
@@ -69,8 +69,14 @@ collision_mask = 9
 script = ExtResource("4_1veg3")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Room2"]
-position = Vector2(576, 424)
+position = Vector2(1260, 424)
 shape = SubResource("RectangleShape2D_r8mlm")
+
+[node name="TestEnemy2" parent="." instance=ExtResource("2_5tng7")]
+position = Vector2(1816, 384)
+
+[node name="TestEnemy3" parent="." instance=ExtResource("2_5tng7")]
+position = Vector2(2152, 376)
 
 [connection signal="body_entered" from="Room1" to="Room1" method="_on_body_entered"]
 [connection signal="body_entered" from="Room2" to="Room2" method="_on_body_entered"]
