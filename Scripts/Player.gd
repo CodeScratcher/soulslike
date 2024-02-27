@@ -1,5 +1,6 @@
 extends CharacterBody2D
 
+@onready var progression = get_node("/root/Progression")
 
 @export var MAX_SPEED = 200.0
 @export var JUMP_VELOCITY = -200.0
@@ -10,17 +11,18 @@ extends CharacterBody2D
 @export var STAMINA_REGEN = 25.0
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-
 # Timer for variable ajumps and coyote time
 var jump_timer = 0.0
 var started_jump = false
 var finished_jump = false
 
-var MAX_HP = 100.0
-var MAX_STAMINA = 100.0
+@onready var MAX_HP = progression.max_hp
+@onready var MAX_STAMINA = progression.max_stamina
 
-var hp = MAX_HP
-var stamina = MAX_STAMINA
+@onready var physical_damage = progression.physical_damage
+
+@onready var hp = MAX_HP
+@onready var stamina = MAX_STAMINA
 
 var hit_iframes = 0
 var flasks = 4
@@ -182,9 +184,9 @@ func heal():
 func _on_hitbox_area_entered(area):
 	var body = area.get_parent()
 	if $AnimationPlayer.current_animation == "attack" and body.is_in_group("enemy"):
-		body.hp -= light_damage
+		body.hp -= light_damage * physical_damage
 	elif $AnimationPlayer.current_animation == "heavy_attack" and body.is_in_group("enemy"):
-		body.hp -= heavy_damage
+		body.hp -= heavy_damage * physical_damage
 
 func block():
 	if Input.is_action_pressed("block"):
