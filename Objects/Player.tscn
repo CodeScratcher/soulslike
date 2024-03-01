@@ -237,7 +237,6 @@ disabled = true
 debug_color = Color(0, 0.580392, 0.796078, 0.419608)
 
 [node name="Sprite2D" type="Sprite2D" parent="BlockArea"]
-visible = false
 position = Vector2(32, 0)
 scale = Vector2(20.25, 68.125)
 texture = SubResource("PlaceholderTexture2D_db7ct")
