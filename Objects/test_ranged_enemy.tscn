@@ -1,7 +1,80 @@
 [gd_scene load_steps=15 format=3 uid="uid://dy78mfsng0l24"]
 
-[ext_resource type="Script" path="res://Scripts/test_enemy.gd" id="1_mn5l6"]
 [ext_resource type="Texture2D" uid="uid://duyvdhdn6yd5l" path="res://icon.svg" id="2_8mn15"]
+
+[sub_resource type="GDScript" id="GDScript_k1voh"]
+script/source = "extends CharacterBody2D
+
+
+@export var MAX_SPEED = 200.0
+
+var gravity = ProjectSettings.get_setting(\"physics/2d/default_gravity\")
+var hp = 30
+var target = null
+var player_in_range = false
+var atk_cooldown = 2.0
+var damage = 25
+
+func _physics_process(delta):
+	for x in $Hitbox.get_overlapping_areas():
+		if x.name == \"BlockArea\" and x.visible:
+			print(\"OK\")
+			$AnimationPlayer.play(\"RESET\")
+	
+	for x in $Hitbox.get_overlapping_areas():
+		var body = x.get_parent()
+		var in_attack = $AnimationPlayer.current_animation == \"attack\" or $AnimationPlayer.current_animation == \"attack_left\"
+		if in_attack and body.is_in_group(\"player\") and body.hit_iframes <= 0:
+			print(\"HURT\")
+			body.hp -= damage
+			print(body.hit_iframes)
+			body.hit_iframes = 2.0
+	
+	if not is_on_floor():
+		velocity.y += gravity * delta
+		
+	if target and not player_in_range:
+		velocity.x = sign(global_position.direction_to(target.global_position).x) * MAX_SPEED
+	else:
+		velocity.x = 0
+	if velocity.x != 0:
+		$Sprite2D.flip_h = sign(velocity.x) > 0
+		
+	move_and_slide()
+	
+	atk_cooldown -= delta
+	
+	if player_in_range == true:
+		if atk_cooldown <= 0.0:
+			if sign(global_position.direction_to(target.global_position).x) > 0:
+				$AnimationPlayer.play(\"attack\")
+			else:
+				$AnimationPlayer.play(\"attack_left\")
+			atk_cooldown = 2.0
+	if hp <= 0:
+			queue_free()
+
+
+func _on_detect_radius_body_entered(body):
+	print(body.name)
+	if body.is_in_group(\"player\"):
+		target = body
+
+func _on_detect_radius_body_exited(body):
+	if body.is_in_group(\"player\"):
+		target = null
+
+
+func _on_attack_area_body_entered(body):
+	if body.is_in_group(\"player\"):
+		player_in_range = true
+
+func _on_attack_area_body_exited(body):
+	if body.is_in_group(\"player\"):
+		player_in_range = false
+
+
+"
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fbocd"]
 height = 72.0
@@ -15,8 +88,9 @@ size = Vector2(22, 72)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nrqcj"]
 size = Vector2(40, 72)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_3tact"]
-radius = 204.01
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0o3wp"]
+radius = 38.0
+height = 712.0
 
 [sub_resource type="Animation" id="Animation_s2uam"]
 length = 0.001
@@ -57,46 +131,7 @@ tracks/2/keys = {
 "values": [true]
 }
 
-[sub_resource type="Animation" id="Animation_36tgk"]
-resource_name = "attack"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Hitbox:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0.2, 0.7),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Hitbox/CollisionShape2D:disabled")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.2, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [false, true]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Hitbox:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0.2, 0.4, 0.7, 1),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(0, 0), Vector2(50, 0), Vector2(-10, 0), Vector2(0, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_m322i"]
+[sub_resource type="Animation" id="Animation_ahetv"]
 resource_name = "attack_left"
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -105,54 +140,93 @@ tracks/0/path = NodePath("Hitbox:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.2, 0.7),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0, 0.4, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
-"values": [true, false]
+"values": [false, true, false]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Hitbox/CollisionShape2D:disabled")
+tracks/1/path = NodePath("Hitbox:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.2, 0.5),
+"times": PackedFloat32Array(0.4, 1),
 "transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [false, true]
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-500, 0)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Hitbox:position")
+tracks/2/path = NodePath("Hitbox/CollisionShape2D:disabled")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0.2, 0.4, 0.7, 1),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.4, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, false, true]
+}
+
+[sub_resource type="Animation" id="Animation_h4ihy"]
+resource_name = "attack"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Hitbox:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Hitbox:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.4, 1),
+"transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(0, 0), Vector2(-50, 0), Vector2(-10, 0), Vector2(0, 0)]
+"values": [Vector2(0, 0), Vector2(500, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Hitbox/CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.4, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, false, true]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_p3w34"]
 _data = {
 "RESET": SubResource("Animation_s2uam"),
-"attack": SubResource("Animation_36tgk"),
-"attack_left": SubResource("Animation_m322i")
+"attack": SubResource("Animation_h4ihy"),
+"attack_left": SubResource("Animation_ahetv")
 }
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_2s0me"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8mevr"]
-size = Vector2(40, 31.5)
+size = Vector2(40, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_70ng5"]
-size = Vector2(1.2e+07, 6.20002e+06)
+size = Vector2(6.8e+07, 6.20002e+06)
 
-[node name="TestEnemy" type="CharacterBody2D" groups=["enemy"]]
+[node name="TestRangedEnemy" type="CharacterBody2D" groups=["enemy"]]
 collision_layer = 4
-script = ExtResource("1_mn5l6")
+script = SubResource("GDScript_k1voh")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(20, 34)
@@ -185,7 +259,8 @@ collision_mask = 9
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectRadius"]
 position = Vector2(20, 34)
-shape = SubResource("CircleShape2D_3tact")
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_0o3wp")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -199,11 +274,11 @@ collision_mask = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="Hitbox"]
 position = Vector2(20, 32)
-scale = Vector2(40, 31)
+scale = Vector2(40, 16)
 texture = SubResource("PlaceholderTexture2D_2s0me")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(20, 32.25)
+position = Vector2(20, 32)
 shape = SubResource("RectangleShape2D_8mevr")
 disabled = true
 
