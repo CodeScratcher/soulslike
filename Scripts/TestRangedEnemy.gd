@@ -7,7 +7,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var hp = 25
 var target = null
 var player_in_range = false
-var atk_cooldown = 3.0
+var atk_cooldown = 5.0
 var damage = 25
 
 func _physics_process(delta):
@@ -18,7 +18,8 @@ func _physics_process(delta):
 	
 	for x in $Hitbox.get_overlapping_areas():
 		var body = x.get_parent()
-		var in_attack = $AnimationPlayer.current_animation == "attack" or $AnimationPlayer.current_animation == "attack_right"
+		var in_attack = $AnimationPlayer.current_animation == "attack" or $AnimationPlayer.current_animation == "attack_left"
+	
 		if in_attack and body.is_in_group("player") and body.hit_iframes <= 0:
 			print("HURT")
 			body.hp -= damage
@@ -42,9 +43,9 @@ func _physics_process(delta):
 	if player_in_range == true:
 		if atk_cooldown <= 0.0:
 			if sign(global_position.direction_to(target.global_position).x) > 0:
-				$AnimationPlayer.play("attack_right")
-			else:
 				$AnimationPlayer.play("attack")
+			else:
+				$AnimationPlayer.play("attack_left")
 			atk_cooldown = 3.0
 	if hp <= 0:
 			queue_free()
