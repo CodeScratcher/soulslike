@@ -8,7 +8,7 @@ extends CharacterBody2D
 @export var DECEL = 150.0
 @export var JUMP_VARIETY = 4
 @export var ROLL_SPEED = 400.0
-@export var STAMINA_REGEN = 25.0
+@export var STAMINA_REGEN = 50.0
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 # Timer for variable ajumps and coyote time
